@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { ArrowLeft, Check, Clock } from "lucide-react";
 import { AnswerCard, CTAButton, Logo, ProgressBar } from "./Primitives";
 import {
@@ -84,11 +84,70 @@ export function QuizQuestion({
   );
 }
 
-export function ProcessingScreen() {
+export function NameStep({
+  initial,
+  onSubmit,
+  onBack,
+}: {
+  initial: string;
+  onSubmit: (nome: string) => void;
+  onBack: () => void;
+}) {
+  const [nome, setNome] = useState(initial);
+  const [error, setError] = useState(false);
+  const submit = (e: FormEvent) => {
+    e.preventDefault();
+    const clean = nome.trim().replace(/\s+/g, " ");
+    if (clean.length < 2) return setError(true);
+    onSubmit(clean.slice(0, 60));
+  };
+  return (
+    <form onSubmit={submit} className={enter} noValidate>
+      <div className="flex items-center justify-between">
+        <button
+          type="button"
+          onClick={onBack}
+          className="inline-flex items-center gap-1 rounded-lg px-2 py-2 text-sm font-semibold text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+        >
+          <ArrowLeft className="h-4 w-4" aria-hidden /> Voltar
+        </button>
+        <Logo size="sm" />
+      </div>
+      <label htmlFor="nome_lead" className="mt-10 block font-display text-2xl font-extrabold text-brand-dark sm:text-3xl">
+        Qual é o seu nome?
+      </label>
+      <input
+        id="nome_lead"
+        name="nome_lead"
+        autoFocus
+        required
+        autoComplete="given-name"
+        maxLength={60}
+        value={nome}
+        onChange={(e) => {
+          setNome(e.target.value);
+          setError(false);
+        }}
+        aria-invalid={error}
+        aria-describedby={error ? "nome_erro" : undefined}
+        placeholder="Digite seu nome"
+        className="mt-6 w-full rounded-2xl border-2 border-border bg-card p-5 text-lg font-semibold text-foreground shadow-soft outline-none transition-colors focus:border-primary"
+      />
+      {error && (
+        <p id="nome_erro" className="mt-2 text-sm font-semibold text-cta">
+          Informe seu nome para continuar.
+        </p>
+      )}
+      <CTAButton type="submit" className="mt-6">CONTINUAR</CTAButton>
+    </form>
+  );
+}
+
+export function ProcessingScreen({ nome }: { nome: string }) {
   return (
     <div className={cn("flex min-h-[70vh] flex-col items-center justify-center text-center", enter)} role="status">
       <div className="h-16 w-16 animate-spin rounded-full border-4 border-muted border-t-primary" aria-hidden />
-      <h2 className="mt-8 font-display text-2xl font-extrabold text-brand-dark">Analisando suas respostas...</h2>
+      <h2 className="mt-8 font-display text-2xl font-extrabold text-brand-dark">Perfeito, {nome}! Analisando suas respostas...</h2>
       <p className="mt-2 text-muted-foreground">Identificando seus principais pontos de atenção...</p>
     </div>
   );
@@ -105,14 +164,14 @@ const STATUS_STYLE: Record<SubjectStatus, { badge: string; bar: string; w: strin
   boa: { badge: "bg-primary/10 text-primary", bar: "bg-primary", w: "w-full" },
 };
 
-export function DiagnosisResult({ diagnosis }: { diagnosis: Record<Subject, SubjectStatus> }) {
+export function DiagnosisResult({ diagnosis, nome }: { diagnosis: Record<Subject, SubjectStatus>; nome: string }) {
   return (
     <section className={enter}>
       <div className="text-center">
         <Logo size="sm" />
       </div>
       <h1 className="mt-8 text-center font-display text-3xl font-extrabold text-brand-dark sm:text-4xl">
-        Seu diagnóstico está pronto
+        {nome}, seu diagnóstico está pronto
       </h1>
       <p className="mx-auto mt-4 max-w-xl text-center text-lg text-muted-foreground">
         Suas respostas mostram que fortalecer a base pode deixar sua preparação mais organizada e eficiente.
@@ -160,7 +219,7 @@ const ITEMS = [
   "Material para revisão",
 ] as const;
 
-export function ApostilaOffer() {
+export function ApostilaOffer({ nome }: { nome: string }) {
   useEffect(() => track("offer_viewed"), []);
   return (
     <section className={cn("mt-16", enter)}>
@@ -169,12 +228,12 @@ export function ApostilaOffer() {
           Agora você já sabe onde precisa concentrar sua atenção.
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
-          Para facilitar sua preparação, reunimos os principais conteúdos básicos em um material organizado para estudo e
+          Para facilitar sua preparação, {nome}, reunimos os principais conteúdos básicos em um material organizado para estudo e
           revisão.
         </p>
       </div>
       <div className="mt-10 overflow-hidden rounded-3xl bg-brand-dark p-6 text-primary-foreground shadow-soft sm:p-10">
-        <h2 className="text-center font-display text-3xl font-extrabold">Comece fortalecendo sua base</h2>
+        <h2 className="text-center font-display text-3xl font-extrabold">{nome}, comece fortalecendo sua base</h2>
         <p className="mx-auto mt-3 max-w-md text-center opacity-80">
           Tenha um material organizado para estudar e revisar Português, Matemática e Informática.
         </p>

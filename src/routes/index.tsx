@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ApostilaOffer, DiagnosisResult, Opening, ProcessingScreen, QuizQuestion } from "@/components/quiz/Screens";
+import { ApostilaOffer, DiagnosisResult, NameStep, Opening, ProcessingScreen, QuizQuestion } from "@/components/quiz/Screens";
 import { QUESTIONS, computeDiagnosis, type Answers } from "@/lib/quiz-data";
 import { track } from "@/lib/tracking";
 
@@ -22,13 +22,15 @@ export const Route = createFileRoute("/")({
   component: QuizPage,
 });
 
-type Stage = { kind: "opening" } | { kind: "question"; index: number } | { kind: "processing" } | { kind: "result" };
+type Stage = { kind: "opening" } | { kind: "name" } | { kind: "question"; index: number } | { kind: "processing" } | { kind: "result" };
 
 const STORAGE_KEY = "mp_quiz_answers";
 
 function QuizPage() {
   const [stage, setStage] = useState<Stage>({ kind: "opening" });
   const [answers, setAnswers] = useState<Answers>([]);
+  /** Lead name — available through the whole flow for personalization. */
+  const [nome_lead, setNomeLead] = useState("");
   const timer = useRef<number | undefined>(undefined);
   const diagnosis = useMemo(() => computeDiagnosis(answers), [answers]);
 
@@ -40,6 +42,13 @@ function QuizPage() {
       /* storage unavailable */
     }
   }, [answers]);
+  useEffect(() => {
+    try {
+      if (nome_lead) sessionStorage.setItem("nome_lead", nome_lead);
+    } catch {
+      /* storage unavailable */
+    }
+  }, [nome_lead]);
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
     if (stage.kind === "processing") {
@@ -68,6 +77,16 @@ function QuizPage() {
             onStart={() => {
               track("quiz_started");
               setAnswers([]);
+              setStage({ kind: "name" });
+            }}
+          />
+        )}
+        {stage.kind === "name" && (
+          <NameStep
+            initial={nome_lead}
+            onBack={() => setStage({ kind: "opening" })}
+            onSubmit={(n) => {
+              setNomeLead(n);
               setStage({ kind: "question", index: 0 });
             }}
           />
@@ -82,15 +101,15 @@ function QuizPage() {
             onSelect={(o) => select(stage.index, o)}
             onBack={() => {
               window.clearTimeout(timer.current);
-              setStage(stage.index === 0 ? { kind: "opening" } : { kind: "question", index: stage.index - 1 });
+              setStage(stage.index === 0 ? { kind: "name" } : { kind: "question", index: stage.index - 1 });
             }}
           />
         )}
-        {stage.kind === "processing" && <ProcessingScreen />}
+        {stage.kind === "processing" && <ProcessingScreen nome={nome_lead} />}
         {stage.kind === "result" && (
           <>
-            <DiagnosisResult diagnosis={diagnosis} />
-            <ApostilaOffer />
+            <DiagnosisResult diagnosis={diagnosis} nome={nome_lead} />
+            <ApostilaOffer nome={nome_lead} />
           </>
         )}
       </div>
