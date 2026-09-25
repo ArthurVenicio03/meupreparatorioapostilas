@@ -1,21 +1,16 @@
+import logoAsset from "@/assets/logo-meu-preparatorio.png.asset.json";
 import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils";
 
 export function Logo({ size = "md" }: { size?: "sm" | "md" }) {
   return (
-    <div className="flex items-center gap-2" aria-label="Meu Preparatório">
-      <div
-        className={cn(
-          "grid place-items-center rounded-xl bg-primary font-display font-extrabold text-primary-foreground",
-          size === "sm" ? "h-8 w-8 text-sm" : "h-10 w-10 text-base",
-        )}
-      >
-        MP
-      </div>
-      <span className={cn("font-display font-extrabold leading-none text-brand-dark", size === "sm" ? "text-base" : "text-xl")}>
-        Meu <span className="text-primary">Preparatório</span>
-      </span>
-    </div>
+    <img
+      src={logoAsset.url}
+      alt="Meu Preparatório"
+      width={839}
+      height={297}
+      className={cn("w-auto", size === "sm" ? "h-9" : "h-14 sm:h-16")}
+    />
   );
 }
 
