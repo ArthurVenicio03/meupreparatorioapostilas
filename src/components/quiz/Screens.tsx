@@ -5,7 +5,7 @@ import { AnswerCard, CTAButton, Logo, ProgressBar } from "./Primitives";
 import portuguesCapa from "@/assets/uploads/3857.png";
 import materialPagina1 from "@/assets/uploads/3863.png";
 import materialPagina2 from "@/assets/uploads/3864.png";
-import experienciaMaterial from "@/assets/uploads/3867.png";
+
 import {
   CHECKOUT_URL,
   STATUS_LABEL,
@@ -524,14 +524,6 @@ export function ApostilaOffer({ nome }: { nome: string }) {
       </div>
 
       <ValueStack onCheckout={checkout} />
-
-      <div className="mt-10 overflow-hidden rounded-3xl bg-card shadow-soft ring-1 ring-border">
-        <img
-          src={experienciaMaterial}
-          alt="Estudante sorrindo enquanto segura o material Básicas para Concursos"
-          className="max-h-[620px] w-full object-cover object-center"
-        />
-      </div>
     </section>
   );
 }
