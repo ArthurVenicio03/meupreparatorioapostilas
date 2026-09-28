@@ -1,11 +1,11 @@
-import logoAsset from "@/assets/logo-meu-preparatorio.png.asset.json";
+import logoAsset from "@/assets/uploads/3862.png";
 import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils";
 
 export function Logo({ size = "md" }: { size?: "sm" | "md" }) {
   return (
     <img
-      src={logoAsset.url}
+      src={logoAsset}
       alt="Meu Preparatório"
       width={839}
       height={297}
