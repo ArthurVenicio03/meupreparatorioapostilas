@@ -2,9 +2,13 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import { ArrowLeft, Check, ChevronLeft, ChevronRight, Clock } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { AnswerCard, CTAButton, Logo, ProgressBar } from "./Primitives";
-import portuguesCapa from "@/assets/uploads/3857.png";
-import materialPagina1 from "@/assets/uploads/3863.png";
-import materialPagina2 from "@/assets/uploads/3864.png";
+import amostra1 from "@/assets/apostila/pagina-1.png.asset.json";
+import amostra2 from "@/assets/apostila/pagina-2.png.asset.json";
+import amostra3 from "@/assets/apostila/pagina-3.png.asset.json";
+import amostra4 from "@/assets/apostila/pagina-4.png.asset.json";
+import amostra5 from "@/assets/apostila/pagina-5.png.asset.json";
+import amostra6 from "@/assets/apostila/pagina-6.png.asset.json";
+import amostra7 from "@/assets/apostila/pagina-7.png.asset.json";
 
 import {
   CHECKOUT_URL,
@@ -329,9 +333,13 @@ const CONTENTS: Record<Subject, { title: string; description: string; topics: st
 };
 
 const CAROUSEL_IMAGES = [
-  { src: portuguesCapa, label: "Capa da apostila básica" },
-  { src: materialPagina1, label: "Página da apostila com conteúdos de Matemática" },
-  { src: materialPagina2, label: "Página da apostila com conteúdos de Raciocínio Lógico e Português" },
+  { src: amostra1.url, label: "Página real da apostila (1 de 7)" },
+  { src: amostra2.url, label: "Página real da apostila (2 de 7)" },
+  { src: amostra3.url, label: "Página real da apostila (3 de 7)" },
+  { src: amostra4.url, label: "Página real da apostila (4 de 7)" },
+  { src: amostra5.url, label: "Página real da apostila (5 de 7)" },
+  { src: amostra6.url, label: "Página real da apostila (6 de 7)" },
+  { src: amostra7.url, label: "Página real da apostila (7 de 7)" },
 ];
 
 function ApostilaCarousel() {
@@ -507,6 +515,14 @@ export function ApostilaOffer({ nome }: { nome: string }) {
         ))}
       </div>
 
+
+      <div className="mt-14 rounded-3xl bg-secondary p-5 sm:p-8">
+        <p className="text-center text-sm font-extrabold tracking-widest text-primary">VEJA O QUE VOCÊ VAI RECEBER</p>
+        <h2 className="mt-2 text-center font-display text-xl font-extrabold text-brand-dark">
+          Confira algumas páginas reais do material.
+        </h2>
+        <ApostilaCarousel />
+      </div>
 
       <div className="mt-14">
         <h2 className="text-center font-display text-2xl font-extrabold text-brand-dark">O que você vai estudar</h2>
