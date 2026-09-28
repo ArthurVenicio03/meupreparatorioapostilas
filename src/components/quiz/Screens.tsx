@@ -3,9 +3,9 @@ import { ArrowLeft, Check, ChevronLeft, ChevronRight, Clock } from "lucide-react
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { AnswerCard, CTAButton, Logo, ProgressBar } from "./Primitives";
 import portuguesCapa from "@/assets/uploads/3857.png";
-import portuguesPagina1 from "@/assets/uploads/3859.png";
-import portuguesPagina2 from "@/assets/uploads/3860.png";
-import portuguesPagina3 from "@/assets/uploads/3861.png";
+import materialPagina1 from "@/assets/uploads/3863.png";
+import materialPagina2 from "@/assets/uploads/3864.png";
+import experienciaMaterial from "@/assets/uploads/3865.jpg";
 import {
   CHECKOUT_URL,
   STATUS_LABEL,
@@ -323,9 +323,8 @@ const CONTENTS: Record<Subject, { title: string; description: string; topics: st
 
 const CAROUSEL_IMAGES = [
   { src: portuguesCapa, label: "Capa da apostila básica" },
-  { src: portuguesPagina1, label: "Página sobre compreensão e interpretação de texto" },
-  { src: portuguesPagina2, label: "Página sobre funções da linguagem e gêneros textuais" },
-  { src: portuguesPagina3, label: "Página sobre coesão e coerência" },
+  { src: materialPagina1, label: "Página da apostila com conteúdos de Matemática" },
+  { src: materialPagina2, label: "Página da apostila com conteúdos de Raciocínio Lógico e Português" },
 ];
 
 function ApostilaCarousel() {
@@ -520,32 +519,34 @@ export function ApostilaOffer({ nome }: { nome: string }) {
 
       <ValueStack />
 
-      <div className="mt-10 overflow-hidden rounded-3xl bg-brand-dark p-6 text-primary-foreground shadow-soft sm:p-10">
-        <p className="text-center text-sm font-extrabold tracking-widest text-cta">PACOTE BÁSICAS PARA CONCURSOS</p>
-        <h2 className="mt-3 text-center font-display text-3xl font-extrabold">{nome}, comece fortalecendo sua base</h2>
-        <p className="mx-auto mt-3 max-w-md text-center opacity-80">
-          Tenha Português, Matemática e Informática organizados em materiais feitos para estudo e revisão.
-        </p>
-        <ul className="mx-auto mt-8 max-w-md space-y-3">
-          {ITEMS.map((item) => (
-            <li key={item} className="flex items-center gap-3 font-semibold">
-              <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-cta">
+      <div className="mt-10 overflow-hidden rounded-3xl bg-card shadow-soft ring-1 ring-border">
+        <div className="grid items-stretch md:grid-cols-[1.05fr_0.95fr]">
+          <div className="relative min-h-[320px] overflow-hidden sm:min-h-[400px]">
+            <img
+              src={experienciaMaterial}
+              alt="Estudante sorrindo enquanto segura o material Básicas para Concursos"
+              className="h-full w-full object-cover object-center"
+            />
+            <div className="absolute bottom-4 left-4 rounded-full bg-card/95 px-4 py-2 text-xs font-extrabold text-primary shadow-soft">
+              Material completo para começar sua preparação
+            </div>
+          </div>
+          <div className="flex flex-col justify-center bg-secondary p-6 sm:p-10">
+            <p className="text-sm font-extrabold tracking-widest text-primary">EXPERIÊNCIA COM O MATERIAL</p>
+            <h2 className="mt-4 font-display text-2xl font-extrabold leading-tight text-brand-dark sm:text-3xl">
+              Agora eu tenho um material para começar de verdade.
+            </h2>
+            <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+              Português, Matemática e Informática organizados para facilitar sua preparação.
+            </p>
+            <div className="mt-6 flex items-center gap-3 text-sm font-bold text-brand-dark">
+              <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-cta text-cta-foreground">
                 <Check className="h-4 w-4" aria-hidden />
               </span>
-              {item}
-            </li>
-          ))}
-        </ul>
-        <div className="mt-8 text-center">
-          <p className="text-sm opacity-70 line-through">R$ 149,50</p>
-          <p className="mt-1 font-display text-4xl font-extrabold text-cta">R$ 37,90</p>
+              Mais clareza para estudar e revisar
+            </div>
+          </div>
         </div>
-        <CTAButton className="mt-6" onClick={checkout}>
-          QUERO O PACOTE COMPLETO — R$ 37,90
-        </CTAButton>
-        <p className="mt-4 text-center text-sm opacity-80">
-          Pagamento seguro. Comece pelas matérias básicas e tenha um material organizado para estudar e revisar.
-        </p>
       </div>
     </section>
   );
