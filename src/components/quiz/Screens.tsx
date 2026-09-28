@@ -507,16 +507,6 @@ export function ApostilaOffer({ nome }: { nome: string }) {
         ))}
       </div>
 
-      <div className="mt-14 rounded-3xl bg-secondary p-5 sm:p-8">
-        <p className="text-center text-sm font-extrabold tracking-widest text-primary">VEJA O QUE VOCÊ VAI RECEBER</p>
-        <h2 className="mt-2 text-center font-display text-xl font-extrabold text-brand-dark">
-          Confira algumas páginas reais do material.
-        </h2>
-        <ApostilaCarousel />
-        <p className="mt-4 text-center text-xs text-muted-foreground">
-          Amostra visual da apostila de Língua Portuguesa. O pacote também inclui Matemática e Informática.
-        </p>
-      </div>
 
       <div className="mt-14">
         <h2 className="text-center font-display text-2xl font-extrabold text-brand-dark">O que você vai estudar</h2>
