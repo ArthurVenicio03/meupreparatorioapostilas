@@ -5,7 +5,7 @@ import { AnswerCard, CTAButton, Logo, ProgressBar } from "./Primitives";
 import portuguesCapa from "@/assets/uploads/3857.png";
 import materialPagina1 from "@/assets/uploads/3863.png";
 import materialPagina2 from "@/assets/uploads/3864.png";
-import experienciaMaterial from "@/assets/uploads/3865.jpg";
+import experienciaMaterial from "@/assets/uploads/3866.png";
 import {
   CHECKOUT_URL,
   STATUS_LABEL,
@@ -435,7 +435,7 @@ function ContentAccordion({ subject }: { subject: Subject }) {
   );
 }
 
-function ValueStack() {
+function ValueStack({ onCheckout }: { onCheckout: () => void }) {
   const items = ["Língua Portuguesa", "Matemática", "Informática", "Conteúdo organizado para estudo", "Material para revisão"];
 
   return (
@@ -457,6 +457,12 @@ function ValueStack() {
         <p className="text-sm font-extrabold tracking-widest text-primary">PACOTE COMPLETO</p>
         <p className="mt-1 font-display text-4xl font-extrabold text-cta">R$ 37,90</p>
         <p className="mt-2 text-sm font-semibold text-muted-foreground">Economize R$ 111,60 · aproximadamente 74% de economia</p>
+        <CTAButton
+          className="mt-5 animate-pulse bg-success px-5 py-4 text-base text-success-foreground shadow-none hover:brightness-105 focus-visible:ring-success/40"
+          onClick={onCheckout}
+        >
+          QUERO O PACOTE COMPLETO
+        </CTAButton>
       </div>
     </div>
   );
@@ -517,7 +523,7 @@ export function ApostilaOffer({ nome }: { nome: string }) {
         </div>
       </div>
 
-      <ValueStack />
+      <ValueStack onCheckout={checkout} />
 
       <div className="mt-10 overflow-hidden rounded-3xl bg-card shadow-soft ring-1 ring-border">
         <div className="grid items-stretch md:grid-cols-[1.05fr_0.95fr]">
