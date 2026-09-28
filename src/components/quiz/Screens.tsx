@@ -17,6 +17,10 @@ import { track } from "@/lib/tracking";
 import paginaApostila1 from "@/assets/uploads/3868.png";
 import paginaApostila2 from "@/assets/uploads/3869.png";
 import paginaApostila3 from "@/assets/uploads/3870.png";
+import paginaApostila4 from "@/assets/uploads/3871.png";
+import paginaApostila5 from "@/assets/uploads/3872.png";
+import paginaApostila6 from "@/assets/uploads/3873.png";
+import paginaApostila7 from "@/assets/uploads/3874.png";
 import { cn } from "@/lib/utils";
 
 const enter = "animate-in fade-in slide-in-from-bottom-4 duration-500";
@@ -539,7 +543,15 @@ export function ApostilaOffer({ nome }: { nome: string }) {
         </div>
 
         <div className="grid gap-5 md:grid-cols-3">
-          {[paginaApostila1, paginaApostila2, paginaApostila3].map(
+          {[
+            paginaApostila1,
+            paginaApostila2,
+            paginaApostila3,
+            paginaApostila4,
+            paginaApostila5,
+            paginaApostila6,
+            paginaApostila7,
+          ].map(
             (pagina, index) => (
               <div
                 key={pagina}
