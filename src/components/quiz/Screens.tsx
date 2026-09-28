@@ -532,41 +532,7 @@ export function ApostilaOffer({ nome }: { nome: string }) {
 
       <ValueStack onCheckout={checkout} />
 
-      <section className="mt-10">
-        <div className="mb-6 text-center">
-          <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-            VEJA O QUE VOCÊ VAI RECEBER
-          </h2>
-          <p className="mt-2 text-muted-foreground">
-            Confira algumas páginas reais do material.
-          </p>
-        </div>
 
-        <div className="grid gap-5 md:grid-cols-3">
-          {[
-            paginaApostila1,
-            paginaApostila2,
-            paginaApostila3,
-            paginaApostila4,
-            paginaApostila5,
-            paginaApostila6,
-            paginaApostila7,
-          ].map(
-            (pagina, index) => (
-              <div
-                key={pagina}
-                className="overflow-hidden rounded-2xl border border-border bg-muted shadow-sm"
-              >
-                <img
-                  src={pagina}
-                  alt={`Página ${index + 1} do material do Meu Preparatório`}
-                  className="h-auto w-full object-contain"
-                />
-              </div>
-            ),
-          )}
-        </div>
-      </section>
     </section>
   );
 }
