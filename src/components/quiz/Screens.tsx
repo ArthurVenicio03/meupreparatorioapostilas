@@ -1,6 +1,11 @@
-import { useEffect, useState, type FormEvent } from "react";
-import { ArrowLeft, Check, Clock } from "lucide-react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
+import { ArrowLeft, Check, ChevronLeft, ChevronRight, Clock } from "lucide-react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { AnswerCard, CTAButton, Logo, ProgressBar } from "./Primitives";
+import portuguesCapa from "@/assets/uploads/3857.png";
+import portuguesPagina1 from "@/assets/uploads/3859.png";
+import portuguesPagina2 from "@/assets/uploads/3860.png";
+import portuguesPagina3 from "@/assets/uploads/3861.png";
 import {
   CHECKOUT_URL,
   STATUS_LABEL,
@@ -165,6 +170,16 @@ const STATUS_STYLE: Record<SubjectStatus, { badge: string; bar: string; w: strin
 };
 
 export function DiagnosisResult({ diagnosis, nome }: { diagnosis: Record<Subject, SubjectStatus>; nome: string }) {
+  useEffect(() => track("diagnosis_viewed"), []);
+
+  const focusCopy: Record<Subject, string> = {
+    portugues: "Português merece uma atenção especial na sua preparação.",
+    matematica: "Matemática aparece como um dos seus principais pontos de atenção.",
+    informatica: "Revisar os fundamentos de Informática pode fortalecer sua preparação.",
+  };
+
+  const strongestSubject = (Object.keys(diagnosis) as Subject[]).find((subject) => diagnosis[subject] === "atencao");
+
   return (
     <section className={enter}>
       <div className="text-center">
@@ -174,8 +189,13 @@ export function DiagnosisResult({ diagnosis, nome }: { diagnosis: Record<Subject
         {nome}, seu diagnóstico está pronto
       </h1>
       <p className="mx-auto mt-4 max-w-xl text-center text-lg text-muted-foreground">
-        Suas respostas mostram que fortalecer a base pode deixar sua preparação mais organizada e eficiente.
+        Suas respostas mostram como está sua preparação nas principais matérias básicas para concursos.
       </p>
+      {strongestSubject && (
+        <p className="mx-auto mt-3 max-w-xl text-center text-sm font-semibold text-primary">
+          Com base nas suas respostas, {focusCopy[strongestSubject].toLowerCase()}
+        </p>
+      )}
       <div className="mt-8 rounded-3xl bg-card p-6 shadow-soft ring-1 ring-border sm:p-8">
         <p className="text-sm font-extrabold tracking-widest text-primary">SEU FOCO DE PREPARAÇÃO</p>
         <ul className="mt-5 space-y-5">
@@ -198,73 +218,334 @@ export function DiagnosisResult({ diagnosis, nome }: { diagnosis: Record<Subject
         </ul>
       </div>
       <div className="mt-6 rounded-3xl bg-secondary p-6 sm:p-8">
-        <h2 className="font-display text-xl font-extrabold text-brand-dark">Por que fortalecer essas matérias?</h2>
+        <h2 className="font-display text-xl font-extrabold text-brand-dark">
+          Uma base bem organizada facilita muito sua preparação.
+        </h2>
         <p className="mt-3 text-muted-foreground">
-          Língua Portuguesa, Matemática e Informática aparecem com frequência na preparação para concursos e formam uma
-          base importante para quem está começando ou precisa revisar os principais conteúdos.
+          Português, Matemática e Informática reúnem conteúdos fundamentais para quem está construindo ou revisando sua
+          preparação para concursos.
         </p>
-        <p className="mt-3 text-xs text-muted-foreground">
-          Orientação de estudo baseada exclusivamente nas suas respostas.
+        <p className="mt-3 text-muted-foreground">
+          Por isso, reunimos os principais conteúdos dessas três áreas em um único pacote de materiais.
         </p>
+        <p className="mt-4 text-xs text-muted-foreground">
+          Orientação de estudo baseada exclusivamente nas suas respostas. Este diagnóstico não substitui uma avaliação
+          profissional.
+        </p>
+        <button
+          type="button"
+          onClick={() => document.getElementById("material")?.scrollIntoView({ behavior: "smooth" })}
+          className="mt-6 rounded-full border-2 border-primary px-5 py-3 text-sm font-extrabold text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
+        >
+          CONHECER O MATERIAL
+        </button>
       </div>
     </section>
   );
 }
 
 const ITEMS = [
-  "Língua Portuguesa",
-  "Matemática",
-  "Informática",
+  "Apostila de Língua Portuguesa",
+  "Apostila de Matemática",
+  "Apostila de Informática",
   "Conteúdo organizado para estudo",
   "Material para revisão",
+  "Questões presentes nos materiais",
 ] as const;
 
-export function ApostilaOffer({ nome }: { nome: string }) {
-  useEffect(() => track("offer_viewed"), []);
+const CONTENTS: Record<Subject, { title: string; description: string; topics: string[] }> = {
+  portugues: {
+    title: "📘 LÍNGUA PORTUGUESA",
+    description: "Da interpretação de textos à gramática, coesão, coerência, concordância e crase.",
+    topics: [
+      "Compreensão e interpretação de textos",
+      "Funções da linguagem",
+      "Gêneros textuais",
+      "Coesão e coerência",
+      "Classes das palavras",
+      "Processos de formação das palavras",
+      "Termos integrantes da oração",
+      "Adjuntos",
+      "Concordância verbal e nominal",
+      "Homônimos e parônimos",
+      "Sinônimos e antônimos",
+      "Polissemia",
+      "Crase",
+      "Questões de interpretação",
+      "Questões de gramática",
+    ],
+  },
+  matematica: {
+    title: "📐 MATEMÁTICA",
+    description: "Dos fundamentos de conjuntos, razão e proporção até porcentagem, probabilidade, funções, geometria e raciocínio lógico.",
+    topics: [
+      "Conjuntos",
+      "Relações de pertinência e inclusão",
+      "Subconjuntos",
+      "Operações entre conjuntos",
+      "União e interseção",
+      "Razão e proporção",
+      "Divisão proporcional",
+      "Regra de três simples e composta",
+      "Porcentagem, aumentos e descontos",
+      "Probabilidade",
+      "Função do 1º e 2º grau",
+      "Geometria plana",
+      "Área, perímetro e figuras planas",
+      "Circunferência, círculo e triângulos",
+      "Raciocínio lógico proposicional",
+      "Proposições, conectivos e negação",
+      "Equivalências lógicas e tabela-verdade",
+      "Questões de concursos",
+    ],
+  },
+  informatica: {
+    title: "💻 INFORMÁTICA",
+    description: "Internet, redes, navegadores, ferramentas de busca, segurança da informação, malware, criptografia e muito mais.",
+    topics: [
+      "Internet, intranet e extranet",
+      "Redes de computadores e topologias",
+      "LAN, MAN, WAN e PAN",
+      "Navegadores e ferramentas de busca",
+      "URL, HTTP e HTTPS",
+      "E-mail, POP3, IMAP e SMTP",
+      "FTP, VPN e VoIP",
+      "Hardware e dispositivos de rede",
+      "Redes sociais",
+      "Firewall e segurança da informação",
+      "Malware, spyware, trojan, ransomware e rootkit",
+      "Criptografia, backup e spam",
+      "Confidencialidade, integridade e disponibilidade",
+      "Questões de concursos",
+    ],
+  },
+};
+
+const CAROUSEL_IMAGES = [
+  { src: portuguesCapa, label: "Capa da apostila básica" },
+  { src: portuguesPagina1, label: "Página sobre compreensão e interpretação de texto" },
+  { src: portuguesPagina2, label: "Página sobre funções da linguagem e gêneros textuais" },
+  { src: portuguesPagina3, label: "Página sobre coesão e coerência" },
+];
+
+function ApostilaCarousel() {
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const touchStart = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (paused) return;
+    const timer = window.setInterval(() => setActive((current) => (current + 1) % CAROUSEL_IMAGES.length), 3000);
+    return () => window.clearInterval(timer);
+  }, [paused]);
+
+  const move = (direction: number) => {
+    setActive((current) => (current + direction + CAROUSEL_IMAGES.length) % CAROUSEL_IMAGES.length);
+    track("carousel_interacted");
+  };
+
   return (
-    <section className={cn("mt-16", enter)}>
-      <div className="text-center">
-        <h2 className="font-display text-2xl font-extrabold text-brand-dark sm:text-3xl">
-          Agora você já sabe onde precisa concentrar sua atenção.
-        </h2>
-        <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
-          Para facilitar sua preparação, {nome}, reunimos os principais conteúdos básicos em um material organizado para estudo e
-          revisão.
-        </p>
+    <div
+      className="mt-8"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onTouchStart={(event) => {
+        setPaused(true);
+        touchStart.current = event.touches[0]?.clientX ?? null;
+      }}
+      onTouchEnd={(event) => {
+        if (touchStart.current !== null) {
+          const distance = (event.changedTouches[0]?.clientX ?? touchStart.current) - touchStart.current;
+          if (Math.abs(distance) > 40) move(distance < 0 ? 1 : -1);
+        }
+        touchStart.current = null;
+        setPaused(false);
+      }}
+    >
+      <div className="relative mx-auto flex max-w-3xl items-center justify-center overflow-hidden px-10 sm:px-16">
+        <button
+          type="button"
+          aria-label="Imagem anterior"
+          onClick={() => move(-1)}
+          className="absolute left-1 z-10 grid h-10 w-10 place-items-center rounded-full bg-card text-primary shadow-soft ring-1 ring-border"
+        >
+          <ChevronLeft className="h-5 w-5" />
+        </button>
+        <div className="flex w-full justify-center">
+          {CAROUSEL_IMAGES.map((image, index) => (
+            <img
+              key={image.src}
+              src={image.src}
+              alt={image.label}
+              className={cn(
+                "max-h-[520px] w-full max-w-sm rounded-2xl object-contain shadow-soft transition-all duration-700",
+                index === active ? "scale-100 opacity-100" : "hidden scale-95 opacity-0",
+              )}
+            />
+          ))}
+        </div>
+        <button
+          type="button"
+          aria-label="Próxima imagem"
+          onClick={() => move(1)}
+          className="absolute right-1 z-10 grid h-10 w-10 place-items-center rounded-full bg-card text-primary shadow-soft ring-1 ring-border"
+        >
+          <ChevronRight className="h-5 w-5" />
+        </button>
       </div>
-      <div className="mt-10 overflow-hidden rounded-3xl bg-brand-dark p-6 text-primary-foreground shadow-soft sm:p-10">
-        <h2 className="text-center font-display text-3xl font-extrabold">{nome}, comece fortalecendo sua base</h2>
-        <p className="mx-auto mt-3 max-w-md text-center opacity-80">
-          Tenha um material organizado para estudar e revisar Português, Matemática e Informática.
-        </p>
-        <div className="mt-8 grid items-center gap-8 md:grid-cols-2">
-          <div className="mx-auto w-48 rotate-[-4deg] rounded-r-2xl rounded-l-md bg-primary p-5 shadow-2xl ring-4 ring-primary-foreground/10 sm:w-56">
-            <div className="h-2 w-10 rounded bg-cta" />
-            <p className="mt-6 text-xs font-bold opacity-70">MEU PREPARATÓRIO</p>
-            <p className="mt-2 font-display text-2xl font-extrabold leading-tight">APOSTILA BÁSICA</p>
-            <p className="mt-8 text-[11px] leading-relaxed opacity-80">Português · Matemática · Informática</p>
-          </div>
-          <ul className="space-y-3">
-            {ITEMS.map((it) => (
-              <li key={it} className="flex items-center gap-3 font-semibold">
-                <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-cta">
-                  <Check className="h-4 w-4" aria-hidden />
-                </span>
-                {it}
+      <div className="mt-4 flex justify-center gap-2">
+        {CAROUSEL_IMAGES.map((image, index) => (
+          <button
+            key={image.src}
+            type="button"
+            aria-label={`Ver imagem ${index + 1}`}
+            onClick={() => {
+              setActive(index);
+              track("carousel_interacted");
+            }}
+            className={cn("h-2.5 rounded-full transition-all", index === active ? "w-8 bg-cta" : "w-2.5 bg-muted")}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ContentAccordion({ subject }: { subject: Subject }) {
+  const content = CONTENTS[subject];
+
+  return (
+    <Accordion type="single" collapsible className="mt-4 rounded-2xl border border-border bg-card px-4">
+      <AccordionItem value={subject} className="border-0">
+        <AccordionTrigger className="font-display text-base font-extrabold text-brand-dark">
+          {content.title}
+        </AccordionTrigger>
+        <AccordionContent>
+          <p className="mb-4 text-sm text-muted-foreground">{content.description}</p>
+          <ul className="grid gap-2 sm:grid-cols-2">
+            {content.topics.map((topic) => (
+              <li key={topic} className="flex gap-2 text-sm text-foreground">
+                <Check className="mt-0.5 h-4 w-4 shrink-0 text-cta" aria-hidden />
+                {topic}
               </li>
             ))}
           </ul>
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  );
+}
+
+function ValueStack() {
+  const items = ["Língua Portuguesa", "Matemática", "Informática", "Conteúdo organizado para estudo", "Material para revisão"];
+
+  return (
+    <div className="mt-10 rounded-3xl bg-secondary p-6 sm:p-8">
+      <h2 className="font-display text-2xl font-extrabold text-brand-dark">Monte seu material completo pagando menos</h2>
+      <div className="mt-6 space-y-3">
+        {items.map((item) => (
+          <div key={item} className="flex items-center justify-between gap-4 border-b border-border pb-3 text-sm">
+            <span className="font-semibold">{item}</span>
+            <span className="shrink-0 font-bold text-muted-foreground line-through">R$ 29,90</span>
+          </div>
+        ))}
+      </div>
+      <div className="mt-5 flex items-center justify-between">
+        <span className="font-bold text-muted-foreground">Valor total</span>
+        <span className="font-display text-xl font-extrabold text-muted-foreground line-through">R$ 149,50</span>
+      </div>
+      <div className="mt-6 rounded-2xl bg-card p-5 text-center ring-1 ring-border">
+        <p className="text-sm font-extrabold tracking-widest text-primary">PACOTE COMPLETO</p>
+        <p className="mt-1 font-display text-4xl font-extrabold text-cta">R$ 37,90</p>
+        <p className="mt-2 text-sm font-semibold text-muted-foreground">Economize R$ 111,60 · aproximadamente 74% de economia</p>
+      </div>
+    </div>
+  );
+}
+
+export function ApostilaOffer({ nome }: { nome: string }) {
+  useEffect(() => {
+    track("product_viewed");
+    track("offer_viewed");
+  }, []);
+
+  const checkout = () => {
+    track("checkout_clicked");
+    window.location.href = CHECKOUT_URL;
+  };
+
+  return (
+    <section id="material" className={cn("mt-16", enter)}>
+      <div className="text-center">
+        <p className="text-sm font-extrabold tracking-widest text-primary">APRESENTAÇÃO DO MATERIAL</p>
+        <h2 className="mt-3 font-display text-2xl font-extrabold text-brand-dark sm:text-3xl">
+          Seu material básico de preparação, organizado em um só lugar
+        </h2>
+        <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
+          Estude e revise Português, Matemática e Informática com materiais organizados para sua preparação.
+        </p>
+      </div>
+
+      <div className="mt-8 grid gap-4 sm:grid-cols-3">
+        {(Object.keys(CONTENTS) as Subject[]).map((subject) => (
+          <div key={subject} className="rounded-2xl bg-card p-5 text-center shadow-soft ring-1 ring-border">
+            <p className="font-display font-extrabold text-brand-dark">{CONTENTS[subject].title}</p>
+            <p className="mt-2 text-sm text-muted-foreground">Material para estudar e revisar os fundamentos.</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-14 rounded-3xl bg-secondary p-5 sm:p-8">
+        <p className="text-center text-sm font-extrabold tracking-widest text-primary">VEJA O QUE VOCÊ VAI RECEBER</p>
+        <h2 className="mt-2 text-center font-display text-xl font-extrabold text-brand-dark">
+          Confira algumas páginas reais do material.
+        </h2>
+        <ApostilaCarousel />
+        <p className="mt-4 text-center text-xs text-muted-foreground">
+          Amostra visual da apostila de Língua Portuguesa. O pacote também inclui Matemática e Informática.
+        </p>
+      </div>
+
+      <div className="mt-14">
+        <h2 className="text-center font-display text-2xl font-extrabold text-brand-dark">O que você vai estudar</h2>
+        <p className="mx-auto mt-3 max-w-xl text-center text-muted-foreground">
+          Conteúdos presentes nos materiais, organizados para facilitar seu estudo e revisão.
+        </p>
+        <div className="mt-6">
+          {(Object.keys(CONTENTS) as Subject[]).map((subject) => (
+            <ContentAccordion key={subject} subject={subject} />
+          ))}
         </div>
-        <CTAButton
-          className="mt-10"
-          onClick={() => {
-            track("checkout_clicked");
-            window.location.href = CHECKOUT_URL;
-          }}
-        >
-          QUERO MINHA APOSTILA
+      </div>
+
+      <ValueStack />
+
+      <div className="mt-10 overflow-hidden rounded-3xl bg-brand-dark p-6 text-primary-foreground shadow-soft sm:p-10">
+        <p className="text-center text-sm font-extrabold tracking-widest text-cta">PACOTE BÁSICAS PARA CONCURSOS</p>
+        <h2 className="mt-3 text-center font-display text-3xl font-extrabold">{nome}, comece fortalecendo sua base</h2>
+        <p className="mx-auto mt-3 max-w-md text-center opacity-80">
+          Tenha Português, Matemática e Informática organizados em materiais feitos para estudo e revisão.
+        </p>
+        <ul className="mx-auto mt-8 max-w-md space-y-3">
+          {ITEMS.map((item) => (
+            <li key={item} className="flex items-center gap-3 font-semibold">
+              <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-cta">
+                <Check className="h-4 w-4" aria-hidden />
+              </span>
+              {item}
+            </li>
+          ))}
+        </ul>
+        <div className="mt-8 text-center">
+          <p className="text-sm opacity-70 line-through">R$ 149,50</p>
+          <p className="mt-1 font-display text-4xl font-extrabold text-cta">R$ 37,90</p>
+        </div>
+        <CTAButton className="mt-6" onClick={checkout}>
+          QUERO O PACOTE COMPLETO — R$ 37,90
         </CTAButton>
-        <p className="mt-4 text-center text-sm opacity-80">Comece agora sua preparação pelas matérias básicas.</p>
+        <p className="mt-4 text-center text-sm opacity-80">
+          Pagamento seguro. Comece pelas matérias básicas e tenha um material organizado para estudar e revisar.
+        </p>
       </div>
     </section>
   );

@@ -5,6 +5,9 @@ export type TrackingEvent =
   | "quiz_question_answered"
   | "quiz_completed"
   | "result_viewed"
+  | "diagnosis_viewed"
+  | "product_viewed"
+  | "carousel_interacted"
   | "offer_viewed"
   | "checkout_clicked";
 

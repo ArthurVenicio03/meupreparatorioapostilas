@@ -124,4 +124,5 @@ export const STATUS_LABEL: Record<SubjectStatus, string> = {
   boa: "Boa base",
 };
 
+/** Configure the real checkout URL here when it becomes available. */
 export const CHECKOUT_URL = "#checkout";
