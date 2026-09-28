@@ -5,7 +5,7 @@ import { AnswerCard, CTAButton, Logo, ProgressBar } from "./Primitives";
 import portuguesCapa from "@/assets/uploads/3857.png";
 import materialPagina1 from "@/assets/uploads/3863.png";
 import materialPagina2 from "@/assets/uploads/3864.png";
-import experienciaMaterial from "@/assets/uploads/3866.png";
+import experienciaMaterial from "@/assets/uploads/3867.png";
 import {
   CHECKOUT_URL,
   STATUS_LABEL,
@@ -526,33 +526,11 @@ export function ApostilaOffer({ nome }: { nome: string }) {
       <ValueStack onCheckout={checkout} />
 
       <div className="mt-10 overflow-hidden rounded-3xl bg-card shadow-soft ring-1 ring-border">
-        <div className="grid items-stretch md:grid-cols-[1.05fr_0.95fr]">
-          <div className="relative min-h-[320px] overflow-hidden sm:min-h-[400px]">
-            <img
-              src={experienciaMaterial}
-              alt="Estudante sorrindo enquanto segura o material Básicas para Concursos"
-              className="h-full w-full object-cover object-center"
-            />
-            <div className="absolute bottom-4 left-4 rounded-full bg-card/95 px-4 py-2 text-xs font-extrabold text-primary shadow-soft">
-              Material completo para começar sua preparação
-            </div>
-          </div>
-          <div className="flex flex-col justify-center bg-secondary p-6 sm:p-10">
-            <p className="text-sm font-extrabold tracking-widest text-primary">EXPERIÊNCIA COM O MATERIAL</p>
-            <h2 className="mt-4 font-display text-2xl font-extrabold leading-tight text-brand-dark sm:text-3xl">
-              Agora eu tenho um material para começar de verdade.
-            </h2>
-            <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-              Português, Matemática e Informática organizados para facilitar sua preparação.
-            </p>
-            <div className="mt-6 flex items-center gap-3 text-sm font-bold text-brand-dark">
-              <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-cta text-cta-foreground">
-                <Check className="h-4 w-4" aria-hidden />
-              </span>
-              Mais clareza para estudar e revisar
-            </div>
-          </div>
-        </div>
+        <img
+          src={experienciaMaterial}
+          alt="Estudante sorrindo enquanto segura o material Básicas para Concursos"
+          className="max-h-[620px] w-full object-cover object-center"
+        />
       </div>
     </section>
   );
