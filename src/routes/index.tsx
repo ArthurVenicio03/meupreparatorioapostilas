@@ -1,6 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { SalesPage } from "@/components/quiz/SalesPage";
+import {
+  ApostilaOffer,
+  DiagnosisResult,
+  NameStep,
+  Opening,
+  ProcessingScreen,
+  QuizQuestion,
+} from "@/components/quiz/Screens";
 import { QUESTIONS, computeDiagnosis, type Answers } from "@/lib/quiz-data";
 import { track } from "@/lib/tracking";
 
