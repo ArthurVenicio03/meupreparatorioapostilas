@@ -1,12 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ApostilaOffer, DiagnosisResult, NameStep, Opening, ProcessingScreen, QuizQuestion } from "@/components/quiz/Screens";
+import { SalesPage } from "@/components/quiz/SalesPage";
 import { QUESTIONS, computeDiagnosis, type Answers } from "@/lib/quiz-data";
 import { track } from "@/lib/tracking";
 
-const TITLE = "Quiz de Preparação para Concursos | Meu Preparatório";
+const TITLE = "Pacote Básicas para Concursos | Meu Preparatório";
 const DESC =
-  "Descubra em menos de 2 minutos como está sua base em Português, Matemática e Informática para concursos públicos.";
+  "Português, Matemática e Informática organizados em um único pacote para estudar e revisar. Material digital com acesso imediato.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -19,7 +19,7 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary" },
     ],
   }),
-  component: QuizPage,
+  component: SalesPage,
 });
 
 type Stage = { kind: "opening" } | { kind: "name" } | { kind: "question"; index: number } | { kind: "processing" } | { kind: "result" };

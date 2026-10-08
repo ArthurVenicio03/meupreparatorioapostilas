@@ -1,6 +1,8 @@
 /** Tracking abstraction: forwards events to GTM dataLayer, GA4 (gtag) and Meta Pixel (fbq) when present. */
 
 export type TrackingEvent =
+  | "page_view"
+  | "cta_clicked"
   | "quiz_started"
   | "quiz_question_answered"
   | "quiz_completed"
