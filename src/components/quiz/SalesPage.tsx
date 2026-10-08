@@ -230,7 +230,6 @@ export function SalesPage() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const heroImages = useMemo(() => images.slice(0, 3), []);
 
   return (
     <main className="min-h-screen bg-background pb-20">
