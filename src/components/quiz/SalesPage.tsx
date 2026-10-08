@@ -10,7 +10,7 @@ import amostra4 from "@/assets/apostila/pagina-4.png.asset.json";
 import amostra5 from "@/assets/apostila/pagina-5.png.asset.json";
 import amostra6 from "@/assets/apostila/pagina-6.png.asset.json";
 import amostra7 from "@/assets/apostila/pagina-7.png.asset.json";
-import heroMockup from "@/assets/uploads/6530.png";
+import heroMockup from "@/assets/mockup-principal.png.asset.json";
 import {
   CHECKOUT_URL,
   STATUS_LABEL,
