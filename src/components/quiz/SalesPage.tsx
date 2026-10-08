@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Check, ChevronDown, ShieldCheck } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
@@ -119,6 +119,7 @@ function CheckoutButton({ children = "QUERO O PACOTE COMPLETO", className }: { c
 function MaterialCarousel() {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
+  const touchStartX = useRef<number | null>(null);
 
   useEffect(() => {
     if (paused) return;
@@ -139,15 +140,29 @@ function MaterialCarousel() {
       className="mt-8"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
-      onTouchStart={() => setPaused(true)}
-      onTouchEnd={() => setPaused(false)}
+      onTouchStart={(event) => {
+        setPaused(true);
+        touchStartX.current = event.touches[0]?.clientX ?? null;
+      }}
+      onTouchEnd={(event) => {
+        const startX = touchStartX.current;
+        const endX = event.changedTouches[0]?.clientX;
+
+        if (startX !== null && endX !== undefined) {
+          const distance = endX - startX;
+          if (Math.abs(distance) > 40) move(distance < 0 ? 1 : -1);
+        }
+
+        touchStartX.current = null;
+        setPaused(false);
+      }}
     >
-      <div className="relative mx-auto flex max-w-4xl items-center justify-center gap-3 overflow-hidden px-10 sm:px-16">
+      <div className="relative mx-auto flex max-w-4xl touch-pan-y items-center justify-center gap-3 overflow-hidden px-8 sm:px-16">
         <button
           type="button"
           aria-label="Página anterior"
           onClick={() => move(-1)}
-          className="absolute left-1 z-10 grid h-10 w-10 place-items-center rounded-full bg-card text-primary shadow-soft ring-1 ring-border"
+          className="absolute left-0 z-10 grid h-10 w-10 place-items-center rounded-full bg-card text-primary shadow-soft ring-1 ring-border sm:left-1"
         >
           ‹
         </button>
@@ -159,8 +174,9 @@ function MaterialCarousel() {
               src={image.src}
               alt={image.label}
               loading={index === 0 ? "eager" : "lazy"}
+              draggable={false}
               className={cn(
-                "max-h-[540px] w-full max-w-sm rounded-2xl object-contain shadow-soft transition-all duration-700",
+                "max-h-[62vh] w-full max-w-sm rounded-2xl object-contain shadow-soft transition-all duration-700 sm:max-h-[540px]",
                 index === active ? "scale-100 opacity-100" : "hidden scale-95 opacity-0",
               )}
             />
@@ -171,7 +187,7 @@ function MaterialCarousel() {
           type="button"
           aria-label="Próxima página"
           onClick={() => move(1)}
-          className="absolute right-1 z-10 grid h-10 w-10 place-items-center rounded-full bg-card text-primary shadow-soft ring-1 ring-border"
+          className="absolute right-0 z-10 grid h-10 w-10 place-items-center rounded-full bg-card text-primary shadow-soft ring-1 ring-border sm:right-1"
         >
           ›
         </button>
@@ -232,23 +248,23 @@ export function SalesPage() {
 
 
   return (
-    <main className="min-h-screen bg-background pb-20">
+    <main className="min-h-screen overflow-x-hidden bg-background pb-20">
       <header className="border-b border-border bg-card">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
+        <div className="mx-auto flex min-h-14 max-w-6xl items-center justify-between px-4 py-3 sm:px-5 sm:py-4">
           <Logo size="sm" />
           <span className="hidden text-sm font-bold text-muted-foreground sm:block">Material digital para concursos</span>
         </div>
       </header>
 
-      <section className="mx-auto grid max-w-6xl gap-10 px-5 py-12 sm:py-20 lg:grid-cols-2 lg:items-center">
+      <section className="mx-auto grid max-w-6xl gap-7 px-4 py-8 sm:gap-10 sm:px-5 sm:py-20 lg:grid-cols-2 lg:items-center">
         <div>
           <span className="inline-flex rounded-full bg-secondary px-4 py-2 text-xs font-extrabold tracking-widest text-primary">
             PACOTE BÁSICAS PARA CONCURSOS
           </span>
-          <h1 className="mt-6 font-display text-4xl font-extrabold leading-tight text-brand-dark sm:text-6xl">
+          <h1 className="mt-5 max-w-xl font-display text-[clamp(2rem,9vw,3.75rem)] font-extrabold leading-[1.08] text-brand-dark sm:mt-6">
             Comece sua preparação pelas matérias básicas.
           </h1>
-          <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted-foreground">
+          <p className="mt-4 max-w-xl text-base leading-relaxed text-muted-foreground sm:mt-5 sm:text-lg">
             Português, Matemática e Informática organizados em um único pacote para você estudar e revisar.
           </p>
           <p className="mt-4 text-sm font-semibold text-muted-foreground">Material digital · Acesso imediato</p>
@@ -258,13 +274,13 @@ export function SalesPage() {
               track("cta_clicked");
               document.getElementById("veja-o-valor-do-pacote")?.scrollIntoView({ behavior: "smooth" });
             }}
-            className="mt-7 h-auto w-full rounded-full bg-cta px-7 py-5 font-display text-base font-extrabold tracking-wide text-cta-foreground shadow-cta hover:brightness-110 sm:w-auto"
+            className="mt-6 h-14 w-full rounded-full bg-cta px-5 py-4 font-display text-sm font-extrabold tracking-wide text-cta-foreground shadow-cta hover:brightness-110 sm:mt-7 sm:h-auto sm:w-auto sm:px-7 sm:py-5 sm:text-base"
           >
             QUERO O PACOTE COMPLETO
           </Button>
         </div>
 
-        <div className="flex justify-center py-4">
+        <div className="flex justify-center px-2 py-2 sm:px-0 sm:py-4">
           <img
             src={heroMockup.url}
             alt="Apostila Básicas para Concursos com páginas de amostra"
@@ -275,7 +291,7 @@ export function SalesPage() {
         </div>
       </section>
 
-      <section className="bg-secondary px-5 py-14 sm:py-20">
+      <section className="bg-secondary px-4 py-10 sm:px-5 sm:py-20">
         <div className="mx-auto max-w-5xl text-center">
           <p className="text-sm font-extrabold tracking-widest text-primary">DEMONSTRAÇÃO DO MATERIAL</p>
           <h2 className="mt-3 font-display text-3xl font-extrabold text-brand-dark sm:text-4xl">Veja o material por dentro</h2>
@@ -286,7 +302,7 @@ export function SalesPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-5 py-14 sm:py-20">
+      <section className="mx-auto max-w-6xl px-4 py-10 sm:px-5 sm:py-20">
         <div className="text-center">
           <h2 className="font-display text-3xl font-extrabold text-brand-dark sm:text-4xl">Tudo o que você precisa para começar pela base</h2>
           <p className="mt-3 text-muted-foreground">Um pacote com conteúdos essenciais organizados para estudo e revisão.</p>
@@ -320,7 +336,7 @@ export function SalesPage() {
         </div>
       </section>
 
-      <section className="bg-secondary px-5 py-14 sm:py-20">
+      <section className="bg-secondary px-4 py-10 sm:px-5 sm:py-20">
         <div className="mx-auto max-w-5xl">
           <h2 className="text-center font-display text-3xl font-extrabold text-brand-dark sm:text-4xl">O que você vai estudar</h2>
           <div className="mt-8 space-y-3">
@@ -345,7 +361,7 @@ export function SalesPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-5 py-14 sm:py-20">
+      <section className="mx-auto max-w-6xl px-4 py-10 sm:px-5 sm:py-20">
         <h2 className="text-center font-display text-3xl font-extrabold text-brand-dark">Para quem esse material é?</h2>
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[
@@ -362,7 +378,7 @@ export function SalesPage() {
         </div>
       </section>
 
-      <section className="bg-secondary px-5 py-14 sm:py-20">
+      <section className="bg-secondary px-4 py-10 sm:px-5 sm:py-20">
         <div className="mx-auto grid max-w-5xl gap-6 md:grid-cols-2">
           <div className="rounded-3xl bg-card p-7 shadow-soft ring-1 ring-border">
             <h2 className="font-display text-2xl font-extrabold text-brand-dark">O problema não é só estudar. É saber o que estudar.</h2>
@@ -386,7 +402,7 @@ export function SalesPage() {
         </div>
       </section>
 
-      <section id="veja-o-valor-do-pacote" className="mx-auto max-w-4xl px-5 py-14 sm:py-20">
+      <section id="veja-o-valor-do-pacote" className="mx-auto max-w-4xl px-4 py-10 sm:px-5 sm:py-20">
         <h2 className="text-center font-display text-3xl font-extrabold text-brand-dark">Veja o valor do pacote</h2>
         <div className="mt-8 divide-y divide-border rounded-3xl bg-card p-6 shadow-soft ring-1 ring-border">
           {valueItems.map((item) => (
@@ -406,7 +422,7 @@ export function SalesPage() {
       </section>
 
 
-      <section className="mx-auto max-w-3xl px-5 py-14 sm:py-20">
+      <section className="mx-auto max-w-3xl px-4 py-10 sm:px-5 sm:py-20">
         <h2 className="text-center font-display text-3xl font-extrabold text-brand-dark">Perguntas frequentes</h2>
         <Accordion type="single" collapsible className="mt-8 rounded-2xl border border-border bg-card px-5">
           {[
@@ -426,7 +442,7 @@ export function SalesPage() {
         </Accordion>
       </section>
 
-      <section className="bg-secondary px-5 py-10">
+      <section className="bg-secondary px-4 py-8 sm:px-5 sm:py-10">
         <div className="mx-auto flex max-w-3xl items-center gap-4 rounded-2xl bg-card p-5 shadow-soft ring-1 ring-border">
           <ShieldCheck className="h-9 w-9 shrink-0 text-primary" />
           <div>
@@ -436,7 +452,7 @@ export function SalesPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-3xl px-5 py-14 sm:py-20">
+      <section className="mx-auto max-w-3xl px-4 py-10 sm:px-5 sm:py-20">
         <OfferCard final />
       </section>
 
