@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Check, ChevronDown, ShieldCheck } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
@@ -10,6 +10,7 @@ import amostra4 from "@/assets/apostila/pagina-4.png.asset.json";
 import amostra5 from "@/assets/apostila/pagina-5.png.asset.json";
 import amostra6 from "@/assets/apostila/pagina-6.png.asset.json";
 import amostra7 from "@/assets/apostila/pagina-7.png.asset.json";
+import heroMockup from "@/assets/hero-mockup.png.asset.json";
 import {
   CHECKOUT_URL,
   STATUS_LABEL,
@@ -229,7 +230,6 @@ export function SalesPage() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const heroImages = useMemo(() => images.slice(0, 3), []);
 
   return (
     <main className="min-h-screen bg-background pb-20">
@@ -256,20 +256,14 @@ export function SalesPage() {
           <p className="mt-4 font-display text-xl font-extrabold text-cta">Por apenas R$37,90</p>
         </div>
 
-        <div className="flex items-end justify-center gap-[-8px] overflow-hidden py-4">
-          {heroImages.map((image, index) => (
-            <img
-              key={image.src}
-              src={image.src}
-              alt={image.label}
-              className={cn(
-                "w-[38%] rounded-xl object-contain shadow-soft ring-1 ring-border",
-                index === 0 && "-rotate-6",
-                index === 1 && "relative z-10 -translate-y-4",
-                index === 2 && "rotate-6",
-              )}
-            />
-          ))}
+        <div className="flex justify-center py-4">
+          <img
+            src={heroMockup.url}
+            alt="Apostila Básicas para Concursos com páginas de amostra"
+            width={432}
+            height={578}
+            className="h-auto w-full max-w-sm object-contain"
+          />
         </div>
       </section>
 
