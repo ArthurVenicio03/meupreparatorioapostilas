@@ -403,13 +403,6 @@ export function SalesPage() {
         </div>
       </section>
 
-      <section className="bg-secondary px-5 py-14 sm:py-20">
-        <div className="mx-auto max-w-5xl text-center">
-          <h2 className="font-display text-3xl font-extrabold text-brand-dark">Você sabe exatamente o que está levando.</h2>
-          <p className="mt-3 text-muted-foreground">Veja novamente algumas páginas reais do material.</p>
-          <MaterialCarousel />
-        </div>
-      </section>
 
       <section className="mx-auto max-w-3xl px-5 py-14 sm:py-20">
         <h2 className="text-center font-display text-3xl font-extrabold text-brand-dark">Perguntas frequentes</h2>
