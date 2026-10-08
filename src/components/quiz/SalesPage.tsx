@@ -10,7 +10,7 @@ import amostra4 from "@/assets/apostila/pagina-4.png.asset.json";
 import amostra5 from "@/assets/apostila/pagina-5.png.asset.json";
 import amostra6 from "@/assets/apostila/pagina-6.png.asset.json";
 import amostra7 from "@/assets/apostila/pagina-7.png.asset.json";
-import heroMockup from "@/assets/hero-mockup.png.asset.json";
+import heroMockup from "@/assets/uploads/6530.png";
 import {
   CHECKOUT_URL,
   STATUS_LABEL,
@@ -252,8 +252,16 @@ export function SalesPage() {
             Português, Matemática e Informática organizados em um único pacote para você estudar e revisar.
           </p>
           <p className="mt-4 text-sm font-semibold text-muted-foreground">Material digital · Acesso imediato</p>
-          <CheckoutButton className="mt-7 w-full sm:w-auto" />
-          <p className="mt-4 font-display text-xl font-extrabold text-cta">Por apenas R$37,90</p>
+          <Button
+            type="button"
+            onClick={() => {
+              track("cta_clicked");
+              document.getElementById("veja-o-valor-do-pacote")?.scrollIntoView({ behavior: "smooth" });
+            }}
+            className="mt-7 h-auto w-full rounded-full bg-cta px-7 py-5 font-display text-base font-extrabold tracking-wide text-cta-foreground shadow-cta hover:brightness-110 sm:w-auto"
+          >
+            QUERO O PACOTE COMPLETO
+          </Button>
         </div>
 
         <div className="flex justify-center py-4">
@@ -378,7 +386,7 @@ export function SalesPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-4xl px-5 py-14 sm:py-20">
+      <section id="veja-o-valor-do-pacote" className="mx-auto max-w-4xl px-5 py-14 sm:py-20">
         <h2 className="text-center font-display text-3xl font-extrabold text-brand-dark">Veja o valor do pacote</h2>
         <div className="mt-8 divide-y divide-border rounded-3xl bg-card p-6 shadow-soft ring-1 ring-border">
           {valueItems.map((item) => (
