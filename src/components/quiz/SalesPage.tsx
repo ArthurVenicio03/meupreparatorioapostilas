@@ -270,21 +270,7 @@ export function SalesPage() {
           <p className="mt-4 max-w-xl text-base leading-relaxed text-muted-foreground sm:mt-5 sm:text-lg">
             Português, Matemática e Informática em um único PDF, com 63 páginas diretas ao ponto e questões de bancas para você praticar.
           </p>
-          <ul className="mt-5 space-y-2.5 text-sm font-semibold text-foreground sm:text-base">
-            {[
-              "63 páginas de conteúdo direto ao ponto",
-              "Questões de bancas com gabarito para praticar",
-              "Português, Matemática e Informática no mesmo material",
-            ].map((benefit) => (
-              <li key={benefit} className="flex items-start gap-2">
-                <Check className="mt-0.5 h-5 w-5 shrink-0 text-success" aria-hidden="true" />
-                <span>{benefit}</span>
-              </li>
-            ))}
-          </ul>
-          <p className="mt-4 text-sm font-semibold text-muted-foreground">
-            PDF digital · Acesso imediato · <strong className="text-foreground">R$ 37,90</strong>
-          </p>
+
           <Button
             type="button"
             onClick={() => {
