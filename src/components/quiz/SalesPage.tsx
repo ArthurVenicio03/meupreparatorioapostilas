@@ -97,7 +97,7 @@ const valueItems = [
   "Material para revisão",
 ];
 
-function CheckoutButton({ children = "QUERO O PACOTE COMPLETO", className }: { children?: React.ReactNode; className?: string }) {
+function CheckoutButton({ children = "QUERO A APOSTILA COMPLETA", className }: { children?: React.ReactNode; className?: string }) {
   const checkout = () => {
     track("checkout_clicked");
     window.location.href = CHECKOUT_URL;
@@ -193,7 +193,7 @@ function MaterialCarousel() {
         </button>
       </div>
 
-      <p className="mt-4 text-center text-sm font-semibold text-muted-foreground">Material real do pacote</p>
+      <p className="mt-4 text-center text-sm font-semibold text-muted-foreground">Material real da apostila</p>
       <div className="mt-3 flex justify-center gap-2">
         {images.map((image, index) => (
           <button
@@ -258,16 +258,33 @@ export function SalesPage() {
 
       <section className="mx-auto grid max-w-6xl gap-7 px-4 py-8 sm:gap-10 sm:px-5 sm:py-20 lg:grid-cols-2 lg:items-center">
         <div>
-          <span className="inline-flex rounded-full bg-secondary px-4 py-2 text-xs font-extrabold tracking-widest text-primary">
-            PACOTE BÁSICAS PARA CONCURSOS
+          <span
+            className="inline-flex rounded-full px-4 py-2 text-sm font-extrabold tracking-widest text-primary-foreground sm:px-5 sm:py-2.5 sm:text-base"
+            style={{ backgroundColor: "#0a1a6e" }}
+          >
+            APOSTILA DIGITAL PARA CONCURSOS PÚBLICOS
           </span>
-          <h1 className="mt-5 max-w-xl font-display text-[clamp(2rem,9vw,3.75rem)] font-extrabold leading-[1.08] text-brand-dark sm:mt-6">
-            Comece sua preparação pelas matérias básicas.
+          <h1 className="mt-5 max-w-xl font-display text-[clamp(2rem,8.5vw,3.75rem)] font-extrabold leading-[1.08] text-brand-dark sm:mt-6">
+            Comece sua preparação <span className="text-cta">para concursos</span> pelas matérias que mais caem.
           </h1>
           <p className="mt-4 max-w-xl text-base leading-relaxed text-muted-foreground sm:mt-5 sm:text-lg">
-            Português, Matemática e Informática organizados em um único pacote para você estudar e revisar.
+            Português, Matemática e Informática em um único PDF, com 63 páginas diretas ao ponto e questões de bancas para você praticar.
           </p>
-          <p className="mt-4 text-sm font-semibold text-muted-foreground">Material digital · Acesso imediato</p>
+          <ul className="mt-5 space-y-2.5 text-sm font-semibold text-foreground sm:text-base">
+            {[
+              "63 páginas de conteúdo direto ao ponto",
+              "Questões de bancas com gabarito para praticar",
+              "Português, Matemática e Informática no mesmo material",
+            ].map((benefit) => (
+              <li key={benefit} className="flex items-start gap-2">
+                <Check className="mt-0.5 h-5 w-5 shrink-0 text-success" aria-hidden="true" />
+                <span>{benefit}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-4 text-sm font-semibold text-muted-foreground">
+            PDF digital · Acesso imediato · <strong className="text-foreground">R$ 37,90</strong>
+          </p>
           <Button
             type="button"
             onClick={() => {
@@ -276,7 +293,7 @@ export function SalesPage() {
             }}
             className="mt-6 h-14 w-full rounded-full bg-cta px-5 py-4 font-display text-sm font-extrabold tracking-wide text-cta-foreground shadow-cta hover:brightness-110 sm:mt-7 sm:h-auto sm:w-auto sm:px-7 sm:py-5 sm:text-base"
           >
-            QUERO O PACOTE COMPLETO
+            QUERO COMEÇAR MEUS ESTUDOS
           </Button>
         </div>
 
@@ -296,7 +313,7 @@ export function SalesPage() {
           <p className="text-sm font-extrabold tracking-widest text-primary">DEMONSTRAÇÃO DO MATERIAL</p>
           <h2 className="mt-3 font-display text-3xl font-extrabold text-brand-dark sm:text-4xl">Veja o material por dentro</h2>
           <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
-            Confira algumas páginas reais das apostilas que fazem parte do pacote.
+            Confira algumas páginas reais das apostilas que fazem parte da apostila.
           </p>
           <MaterialCarousel />
         </div>
@@ -305,7 +322,7 @@ export function SalesPage() {
       <section className="mx-auto max-w-6xl px-4 py-10 sm:px-5 sm:py-20">
         <div className="text-center">
           <h2 className="font-display text-3xl font-extrabold text-brand-dark sm:text-4xl">Tudo o que você precisa para começar pela base</h2>
-          <p className="mt-3 text-muted-foreground">Um pacote com conteúdos essenciais organizados para estudo e revisão.</p>
+          <p className="mt-3 text-muted-foreground">Uma apostila com conteúdos essenciais organizados para estudo e revisão.</p>
         </div>
 
         <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -392,7 +409,7 @@ export function SalesPage() {
             </ul>
           </div>
           <div className="rounded-3xl bg-primary p-7 text-primary-foreground shadow-soft">
-            <h2 className="font-display text-2xl font-extrabold">Com o Pacote Básicas</h2>
+            <h2 className="font-display text-2xl font-extrabold">Com a Apostila Básicas</h2>
             <ul className="mt-6 space-y-3 text-sm">
               {["Português organizado", "Matemática organizada", "Informática organizada", "Material para estudo", "Material para revisão"].map((item) => (
                 <li key={item}>✓ {item}</li>
@@ -426,12 +443,12 @@ export function SalesPage() {
         <h2 className="text-center font-display text-3xl font-extrabold text-brand-dark">Perguntas frequentes</h2>
         <Accordion type="single" collapsible className="mt-8 rounded-2xl border border-border bg-card px-5">
           {[
-            ["Quais matérias estão incluídas?", "O pacote inclui Língua Portuguesa, Matemática e Informática."],
+            ["Quais matérias estão incluídas?", "A apostila inclui Língua Portuguesa, Matemática e Informática."],
             ["O material é digital?", "Sim. O produto é disponibilizado em formato digital."],
             ["Posso estudar pelo celular?", "Sim. O material pode ser acessado em dispositivos compatíveis com a leitura do arquivo."],
-            ["Esse material é específico para algum concurso?", "Não. O pacote foi desenvolvido como material básico de preparação, com foco em Língua Portuguesa, Matemática e Informática."],
-            ["O pacote é um curso completo?", "Não. É um material digital de apoio para estudo e revisão das matérias básicas."],
-            ["O pagamento é único?", "Sim. O valor apresentado corresponde à aquisição do pacote."],
+            ["Esse material é específico para algum concurso?", "Não. A apostila foi desenvolvida como material de preparação, com foco em Língua Portuguesa, Matemática e Informática."],
+            ["A apostila é um curso completo?", "Não. É um material digital de apoio para estudo e revisão das matérias essenciais."],
+            ["O pagamento é único?", "Sim. O valor apresentado corresponde à aquisição da apostila."],
             ["Quando recebo o material?", "Após a confirmação da compra, o acesso será disponibilizado conforme as condições apresentadas no checkout."],
           ].map(([question, answer], index) => (
             <AccordionItem key={question} value={`faq-${index}`}>
@@ -467,7 +484,7 @@ export function SalesPage() {
         <div className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-card/95 p-3 shadow-soft backdrop-blur sm:hidden">
           <div className="flex items-center gap-3">
             <div className="min-w-0">
-              <p className="truncate text-xs font-bold text-muted-foreground">PACOTE COMPLETO</p>
+              <p className="truncate text-xs font-bold text-muted-foreground">APOSTILA COMPLETA</p>
               <p className="font-display text-lg font-extrabold text-cta">R$37,90</p>
             </div>
             <CheckoutButton className="flex-1 px-4 py-4 text-sm">QUERO AGORA</CheckoutButton>
